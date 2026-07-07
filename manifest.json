@@ -23,7 +23,8 @@
       "matches": ["<all_urls>"],
       "js": [
         "data/alphabet.js",
-        "content/content.js"
+        "content/content.js",
+        "content/reading-mode.js"
       ]
     }
   ],

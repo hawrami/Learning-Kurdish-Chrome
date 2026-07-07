@@ -17,9 +17,61 @@
     </div>
     <div class="home-btns">
       <button id="btn-flashcards" class="btn-primary">Flashcards</button>
+      <button id="btn-reading"    class="btn-secondary">Reading Mode</button>
       <button id="btn-browse"     class="btn-secondary">Browse All Letters</button>
     </div>
     <p class="tip">Tip: Highlight any Kurdish letter on a webpage to see its name and pronunciation.</p>
+  </div>
+
+  <!-- ── Reading Mode Screen ── -->
+  <div id="reading-screen" class="screen">
+    <div class="top-bar">
+      <button class="btn-back js-back">← Back</button>
+      <span>Reading Mode</span>
+      <span></span>
+    </div>
+
+    <p class="rm-blurb">
+      Kurdish text on any page is shown with a mix of native letters and their
+      transliteration, switched letter by letter. Hit a letter you can't read
+      yet? Sound out the Latin letters around it to figure it out. As you master
+      each letter it appears in native script more often.
+    </p>
+
+    <label class="rm-switch">
+      <span>Enable on all pages</span>
+      <input type="checkbox" id="rm-enabled" />
+      <span class="rm-track"></span>
+    </label>
+
+    <div class="rm-field">
+      <div class="rm-label-row">
+        <span>Training wheels</span>
+        <span id="rm-fade-val">25% native</span>
+      </div>
+      <input type="range" id="rm-fade" min="0" max="100" step="5" value="25" />
+      <div class="rm-scale"><span>all transliterated</span><span>all native</span></div>
+    </div>
+
+    <label class="rm-check">
+      <input type="checkbox" id="rm-autofade" checked />
+      <span>Auto-fade — ease off the transliteration as I improve</span>
+    </label>
+
+    <div class="rm-progress">
+      <div class="rm-label-row">
+        <span>Letters mastered</span>
+        <span id="rm-mastered">0 / 33</span>
+      </div>
+      <div class="progress-bar"><div id="rm-mastered-fill" class="progress-fill"></div></div>
+    </div>
+
+    <button id="rm-reset" class="rm-reset">Reset letter progress</button>
+
+    <p class="rm-hint">
+      On the page: tap a <b>Latin pill</b> to peek at the native letter · tap a
+      <b>native letter</b> to check yourself and mark it known or peeked.
+    </p>
   </div>
 
   <!-- ── Flashcard Screen ── -->
