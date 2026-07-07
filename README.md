@@ -28,11 +28,11 @@ transliterated letters around it to figure out what it must be — then confirm.
 - **Mastery** is tracked per letter and drives which letters switch to native —
   support stays strongest on the letters you're weakest at.
 
-This is scaffolded retrieval practice with mastery-driven fading. The pedagogy,
-evidence, and design rationale are documented in [`RESEARCH.md`](RESEARCH.md).
-Two safeguards worth noting: consecutive native letters are kept contiguous so
-Sorani's **cursive joining renders correctly**, and every word keeps at least
-one readable anchor so it never becomes unguessable.
+This is scaffolded retrieval practice with mastery-driven fading, grounded in
+language-learning research. Two safeguards worth noting: consecutive native
+letters are kept contiguous so Sorani's **cursive joining renders correctly**,
+and every word keeps at least one readable anchor so it never becomes
+unguessable.
 
 ### Flashcard Mode
 A full flashcard deck covering all 33 letters of the Sorani alphabet:
@@ -74,7 +74,6 @@ A grid view of all 33 letters — tap any cell to expand its pronunciation detai
 ├── test/
 │   ├── reading-mode.test.js  # Node unit tests for the reading-mode core
 │   └── demo.html             # Standalone Reading Mode demo (open in a browser)
-├── RESEARCH.md            # Pedagogy & evidence behind Reading Mode
 └── icons/                 # Extension icons (add your own PNGs)
 ```
 
