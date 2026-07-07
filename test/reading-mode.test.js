@@ -28,10 +28,13 @@ console.log('pNative()');
 {
   const m0 = {}, m5 = { 'ب': 5 };
   ok('fade 0 => never native', core.pNative('ب', m0, 0) === 0);
-  ok('unknown letter at full fade flashes native ~15%',
-     Math.abs(core.pNative('ب', m0, 100) - 0.15) < 1e-9);
+  ok('slider is the dominant lever: unknown letter at full fade is ~half native',
+     Math.abs(core.pNative('ب', m0, 100) - 0.5) < 1e-9);
   ok('mastered letter at full fade is always native',
      core.pNative('ب', m5, 100) === 1);
+  ok('unknown letter gets half the slider, mastered gets all of it',
+     Math.abs(core.pNative('ب', m0, 50) - 0.25) < 1e-9 &&
+     Math.abs(core.pNative('ب', m5, 50) - 0.5) < 1e-9);
   ok('mastery raises native probability',
      core.pNative('ب', m5, 50) > core.pNative('ب', m0, 50));
 }

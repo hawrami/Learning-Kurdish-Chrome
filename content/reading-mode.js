@@ -34,16 +34,17 @@ function makeCore(alphabet) {
   }
 
   // Probability that a given letter is rendered in NATIVE script (a retrieval
-  // test) rather than transliterated (a scaffold). Unknown letters stay mostly
-  // scaffolded, with rare native flashes so hard items still get retrieval
-  // practice (desirable difficulty); mastered letters go mostly native. The
-  // whole thing is scaled by the global `fade` (0 = all training wheels, 100 =
-  // all native).
+  // test) rather than transliterated (a scaffold). The global `fade` slider
+  // (0 = all training wheels, 100 = all native) sets the overall amount of
+  // native script and is the dominant lever. Within that, mastery decides which
+  // letters go native first: an unknown letter gets HALF the slider's value, a
+  // fully-mastered letter gets ALL of it — so mastered letters graduate to
+  // native while the ones you're still learning stay scaffolded a while longer.
   function pNative(letter, mastery, fade) {
     const m = mastery[letter] || 0;                 // 0..5
     const mf = Math.max(0, Math.min(1, m / 5));
     const f  = Math.max(0, Math.min(1, fade / 100));
-    return f * (0.15 + 0.85 * mf);
+    return f * (0.5 + 0.5 * mf);
   }
 
   // Turn one word (string of Arabic-range chars) into an ordered token list.
