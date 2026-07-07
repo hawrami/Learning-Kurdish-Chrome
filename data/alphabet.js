@@ -33,3 +33,8 @@ const kurdishAlphabet = [
   { letter: 'ی', sound: 'y/ee',pronunciation: 'Like "y" in "yes" or "ee" in "tree"',                 ipa: 'j/iː' },
   { letter: 'ێ', sound: 'ê',   pronunciation: 'Like "ay" in "say"',                                  ipa: 'eː'   },
 ];
+
+// Allow Node-based tests to import the data; harmless in the browser.
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { kurdishAlphabet };
+}

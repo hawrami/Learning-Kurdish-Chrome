@@ -11,6 +11,29 @@ Select any Kurdish Sorani text on a webpage and a tooltip appears showing:
 - **Single letter** — the sound it makes, pronunciation description, and IPA symbol
 - **Multiple letters / word** — a rough transliteration at the top (sounds combined in order), followed by a breakdown of each unique letter
 
+### Reading Mode — faded transliteration
+Turn on Reading Mode from the popup and Kurdish text on any webpage is rendered
+as a **mix of native letters and their Latin transliteration, switched letter by
+letter**. When you hit a native letter you can't read yet, sound out the
+transliterated letters around it to figure out what it must be — then confirm.
+
+- **Training-wheels slider** — from *all transliterated* (max scaffold) to *all
+  native*. Start high on training wheels; lower it as you improve.
+- **Auto-fade** — the page eases off the transliteration automatically as you
+  correctly recall letters, and eases back when you peek.
+- **On the page** — tap a **Latin pill** to peek the native letter; tap a
+  **native letter** to check yourself and mark it *Knew it* or *Peeked*. Each
+  answer updates that letter's mastery, so letters you know show up in native
+  script more and more often.
+- **Mastery** is tracked per letter and drives which letters switch to native —
+  support stays strongest on the letters you're weakest at.
+
+This is scaffolded retrieval practice with mastery-driven fading. The pedagogy,
+evidence, and design rationale are documented in [`RESEARCH.md`](RESEARCH.md).
+Two safeguards worth noting: consecutive native letters are kept contiguous so
+Sorani's **cursive joining renders correctly**, and every word keeps at least
+one readable anchor so it never becomes unguessable.
+
 ### Flashcard Mode
 A full flashcard deck covering all 33 letters of the Sorani alphabet:
 - Tap a card to flip and reveal the sound, pronunciation, and IPA
@@ -40,15 +63,23 @@ A grid view of all 33 letters — tap any cell to expand its pronunciation detai
 ├── data/
 │   └── alphabet.js        # All 33 Sorani letters with sounds, pronunciation & IPA
 ├── content/
-│   └── content.js         # Highlight tooltip (runs on every webpage)
+│   ├── content.js         # Highlight tooltip (runs on every webpage)
+│   └── reading-mode.js    # Reading Mode — faded transliteration overlay
 ├── popup/
 │   ├── popup.html         # Extension popup UI
 │   ├── popup.css          # Popup styles
-│   └── popup.js           # Flashcard & browse logic
+│   └── popup.js           # Flashcard, reading-mode settings & browse logic
 ├── background/
 │   └── background.js      # Service worker
+├── test/
+│   ├── reading-mode.test.js  # Node unit tests for the reading-mode core
+│   └── demo.html             # Standalone Reading Mode demo (open in a browser)
+├── RESEARCH.md            # Pedagogy & evidence behind Reading Mode
 └── icons/                 # Extension icons (add your own PNGs)
 ```
+
+Run the tests with `node test/reading-mode.test.js`. Try Reading Mode without
+installing the extension by opening `test/demo.html` in a browser.
 
 ---
 

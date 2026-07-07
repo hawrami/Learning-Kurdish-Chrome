@@ -90,9 +90,73 @@ function buildGrid() {
   });
 }
 
+// ── Reading Mode Settings ────────────────────────────
+
+const RM_KEY = 'klrState';
+const RM_DEFAULTS = { enabled: false, fade: 25, autoFade: true, mastery: {} };
+const MASTERED_AT = 4;                     // mastery (0..5) that counts as "graduated"
+let rmState = { ...RM_DEFAULTS };
+
+function rmLoad() {
+  return new Promise(resolve => {
+    chrome.storage.local.get(RM_KEY, res => {
+      rmState = { ...RM_DEFAULTS, ...(res[RM_KEY] || {}) };
+      rmState.mastery = rmState.mastery || {};
+      resolve();
+    });
+  });
+}
+
+function rmSave() { chrome.storage.local.set({ [RM_KEY]: rmState }); }
+
+function rmRender() {
+  document.getElementById('rm-enabled').checked  = rmState.enabled;
+  document.getElementById('rm-autofade').checked = rmState.autoFade;
+  document.getElementById('rm-fade').value       = rmState.fade;
+  document.getElementById('rm-fade-val').textContent = `${rmState.fade}% native`;
+
+  const total = kurdishAlphabet.length;
+  const mastered = kurdishAlphabet.filter(l => (rmState.mastery[l.letter] || 0) >= MASTERED_AT).length;
+  document.getElementById('rm-mastered').textContent = `${mastered} / ${total}`;
+  document.getElementById('rm-mastered-fill').style.width = `${(mastered / total) * 100}%`;
+}
+
+function initReadingMode() {
+  document.getElementById('rm-enabled').addEventListener('change', e => {
+    rmState.enabled = e.target.checked; rmSave();
+  });
+
+  const fade = document.getElementById('rm-fade');
+  fade.addEventListener('input', e => {
+    rmState.fade = parseInt(e.target.value, 10);
+    document.getElementById('rm-fade-val').textContent = `${rmState.fade}% native`;
+  });
+  fade.addEventListener('change', () => rmSave());   // persist (and re-render page) on release
+
+  document.getElementById('rm-autofade').addEventListener('change', e => {
+    rmState.autoFade = e.target.checked; rmSave();
+  });
+
+  document.getElementById('rm-reset').addEventListener('click', () => {
+    rmState.mastery = {}; rmSave(); rmRender();
+  });
+
+  // Reflect live mastery/fade changes coming from the content script.
+  chrome.storage.onChanged.addListener((changes, area) => {
+    if (area === 'local' && changes[RM_KEY]) {
+      rmState = { ...RM_DEFAULTS, ...(changes[RM_KEY].newValue || {}) };
+      rmState.mastery = rmState.mastery || {};
+      rmRender();
+    }
+  });
+}
+
 // ── Init ─────────────────────────────────────────────
 
 document.addEventListener('DOMContentLoaded', () => {
+
+  rmLoad().then(rmRender);
+  initReadingMode();
 
   // Home buttons
   document.getElementById('btn-flashcards').addEventListener('click', () => {
@@ -102,6 +166,11 @@ document.addEventListener('DOMContentLoaded', () => {
     currentIndex = 0;
     loadCard(currentIndex);
     showScreen('flashcard-screen');
+  });
+
+  document.getElementById('btn-reading').addEventListener('click', () => {
+    rmRender();
+    showScreen('reading-screen');
   });
 
   document.getElementById('btn-browse').addEventListener('click', () => {
