@@ -152,32 +152,22 @@ if (typeof document !== 'undefined' && typeof kurdishAlphabet !== 'undefined') {
       const style = document.createElement('style');
       style.id = 'klr-style';
       style.textContent = `
+        /* Transliterated and native letters both inherit the page's own font,
+           size and colour so the text reads as one flowing line. The Latin vs
+           Perso-Arabic script is itself the only cue you need for which is which;
+           interactivity is revealed on hover instead of with a persistent box. */
         .klr-word { unicode-bidi: isolate; }
-        .klr-native { cursor: pointer; border-radius: 3px; transition: background .1s; }
-        .klr-native:hover { background: rgba(74,124,255,.18); }
-        .klr-pill {
+        .klr-native, .klr-pill {
+          font: inherit;
+          color: inherit;
           cursor: pointer;
-          direction: ltr;
-          unicode-bidi: isolate;
-          font-family: ui-monospace, Menlo, Consolas, monospace;
-          font-size: .82em;
-          line-height: 1;
-          color: #2a5bd7;
-          background: rgba(74,124,255,.14);
-          border: 1px solid rgba(74,124,255,.4);
-          border-radius: 4px;
-          padding: 0 3px;
-          margin: 0 1px;
-          vertical-align: baseline;
+          border-radius: 3px;
+          transition: background .12s;
         }
-        .klr-pill:hover { background: rgba(74,124,255,.26); }
-        .klr-pill.klr-revealed {
-          color: #1f8a3b;
-          background: rgba(60,190,90,.16);
-          border-color: rgba(60,190,90,.45);
-        }
-        .klr-pulse { animation: klrPulse .5s ease; }
-        @keyframes klrPulse { 0%{background:rgba(74,124,255,.5);} 100%{background:transparent;} }
+        .klr-pill { direction: ltr; unicode-bidi: isolate; }
+        .klr-native:hover, .klr-pill:hover { background: rgba(74,124,255,.16); }
+        .klr-pulse { animation: klrPulse .55s ease; }
+        @keyframes klrPulse { 0%{background:rgba(74,124,255,.35);} 100%{background:transparent;} }
       `;
       (document.head || document.documentElement).appendChild(style);
     }
